@@ -1,19 +1,27 @@
 package convolutionfilter;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 public class Convolution extends BufferedImage {
 
+    int kernel[][] = new int[][]{
+        {1, 2, 1},
+        {2, 4, 2},
+        {1, 2, 1}};
+
+    int kernelSumVal;
+
     BufferedImage original;
-    
+
     public Convolution(BufferedImage original) {
         super(original.getWidth(), original.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
         this.original = original;
-
+        
+        kernelSumVal = getKernelSumVal();
+        
         convolutionate();
-
+        
     }
 
     private void convolutionate() {
@@ -24,66 +32,45 @@ public class Convolution extends BufferedImage {
         }
     }
 
-    //255/8 -> 31,87 per adjacent pixel
     private void kernel(int x, int y) {
-
-        int colorAlteration = 0;
-
-        Color pixel = new Color(original.getRGB(x, y));
-
-        colorAlteration += (int) (diferenceCalculator(pixel, x - 1, y - 1)
-                + diferenceCalculator(pixel, x, y - 1)
-                + diferenceCalculator(pixel, x + 1, y - 1)
-                + diferenceCalculator(pixel, x - 1, y)
-                + diferenceCalculator(pixel, x + 1, y)
-                + diferenceCalculator(pixel, x - 1, y + 1)
-                + diferenceCalculator(pixel, x, y + 1)
-                + diferenceCalculator(pixel, x + 1, y + 1));
-
+        
+        int red = 0;
+        int green = 0;
+        int blue = 0;
+        
+        for (int itX = -1; itX <= 1; itX++) {
+            for (int itY = -1; itY <= 1; itY++) {
+                
+                if (kernel[1 + itX][1 + itY] == 0) continue;
+                
+                Color pixel = new Color(original.getRGB(x + itX, y + itY));
+                
+                red += pixel.getRed() * kernel[itX + 1][itY + 1];
+                green += pixel.getGreen() * kernel[itX + 1][itY + 1];
+                blue += pixel.getBlue() * kernel[itX + 1][itY + 1];
+                
+            }
+        }
+        
+        
+        red = (red / kernelSumVal < 1) ? 0 : (red / kernelSumVal > 255) ? 255 : red / kernelSumVal;
+        green = (green / kernelSumVal < 1) ? 0 : (green / kernelSumVal > 255) ? 255 : green / kernelSumVal;
+        blue = (blue / kernelSumVal < 1) ? 0 : (blue / kernelSumVal > 255) ? 255 : blue / kernelSumVal;
+        
         try {
-            this.setRGB(x, y, new Color(colorAlteration, colorAlteration, colorAlteration).getRGB());
+            this.setRGB(x, y, new Color(red, green, blue).getRGB());
         } catch (Exception e) {
-            System.out.println(colorAlteration);
+            System.out.println(e);
         }
-
     }
 
-    private double diferenceCalculator(Color pixel, int x, int y) {
-        Color compared = new Color(original.getRGB(x, y));
-
-        // -------
-        int AR = pixel.getRed();
-        int BR = compared.getRed();
-        int RDiff;
-        if (AR != BR) {
-            RDiff = Math.max(AR, BR) - Math.min(AR, BR);
-        } else {
-            RDiff = 0;
+    private int getKernelSumVal() {
+        int m = 0;
+        for (int[] row : kernel) {
+            for (int n : row) {
+                m += n;
+            }
         }
-        // -------
-        int AG = pixel.getGreen();
-        int BG = compared.getGreen();
-        int GDiff;
-        if (AG != BG) {
-            GDiff = Math.max(AG, BG) - Math.min(AG, BG);
-        } else {
-            GDiff = 0;
-        }
-        // -------
-        int AB = pixel.getBlue();
-        int BB = compared.getBlue();
-        int BDiff;
-        if (AB != BB) {
-            BDiff = Math.max(AB, BB) - Math.min(AB, BB);
-        } else {
-            BDiff = 0;
-        }
-        // -------
-        // 31,87 max value per cell
-        double diff = (0.3187 * (RDiff * 0.33 + GDiff * 0.33 + BDiff * 0.33));
-
-        return diff;
-
+        return (m < 1) ? 1 : m;
     }
-
 }

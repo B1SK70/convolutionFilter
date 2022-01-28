@@ -7,13 +7,15 @@ public class ConvolutionFilter extends JFrame{
 
     public ConvolutionFilter () {
         this.setVisible(true);
-        this.setSize(700,400);
+        this.setSize(1100,600);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
         
-        //sailorMoon
-        //ciudad
-        File imageFile = new File("src/ciudad.png");
+        //sailorMoon.png
+        //ciudad.png
+        //paisaje.jpg
+        //obito.jpg
+        File imageFile = new File("src/paisaje.jpg");
         Viewer viewer = new Viewer(imageFile);
         
         this.add(viewer);

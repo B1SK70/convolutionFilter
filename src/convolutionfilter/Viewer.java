@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import javax.swing.text.View;
 
 public class Viewer extends Canvas implements Runnable {
 
@@ -25,12 +24,13 @@ public class Viewer extends Canvas implements Runnable {
         
         Convolution convolutioned = new Convolution(original);
         this.convolutioned = convolutioned;
+        
 
     }
 
     public void paint(Graphics g) {
         g.drawImage(original, 0, 0, null);
-        g.drawImage(convolutioned, 310, 0, null);
+        g.drawImage(convolutioned, 510, 0, null);
     }
 
     @Override
