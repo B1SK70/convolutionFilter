@@ -30,7 +30,7 @@ public class Viewer extends Canvas implements Runnable {
 
     public void paint(Graphics g) {
         g.drawImage(original, 0, 0, null);
-        g.drawImage(convolutioned, 510, 0, null);
+        g.drawImage(convolutioned, 700, 0, null);
     }
 
     @Override
