@@ -24,8 +24,8 @@ public class Viewer extends Canvas implements Runnable {
         
         Convolution convolutioned = new Convolution(original);
         this.convolutioned = convolutioned;
-        
 
+        
     }
 
     public void paint(Graphics g) {
@@ -37,9 +37,10 @@ public class Viewer extends Canvas implements Runnable {
     public void run() {
         while (true) {
             try {
-                paint(this.getGraphics());
                 Thread.sleep(30);
+                paint( this.getGraphics() );
             } catch (Exception e) {
+                System.out.println("a");
                 System.out.println(e);
             }
 

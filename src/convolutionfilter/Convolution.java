@@ -6,9 +6,9 @@ import java.awt.image.BufferedImage;
 public class Convolution extends BufferedImage {
 
     int kernel[][] = new int[][]{
-        {0, 0, 0},
-        {-1, 2, -1},
-        {0, 0, 0}};
+        {0, -1, 0},
+        {0, 2, 0},
+        {0, -1, 0}};
 
     int kernelSumVal;
 
@@ -57,15 +57,16 @@ public class Convolution extends BufferedImage {
         green = (green / kernelSumVal < 1) ? 0 : (green / kernelSumVal > 255) ? 255 : green / kernelSumVal;
         blue = (blue / kernelSumVal < 1) ? 0 : (blue / kernelSumVal > 255) ? 255 : blue / kernelSumVal;
         
-        if (red + green + blue >= 130 ) {
-            red = 255;
-            green = 255;
-            blue = 255;
-        } else {
-            red = 0;
-            green = 0;
-            blue = 0;
-        }
+        //This is only usefull if you want absolute values when looking for vertical/horizontals edges, otherwise you'll only get weird shapes
+//        if (red + green + blue >= 130 ) {
+//            red = 255;
+//            green = 255;
+//            blue = 255;
+//        } else {
+//            red = 0;
+//            green = 0;
+//            blue = 0;
+//        }
         
         try {
             this.setRGB(x, y, new Color(red, green, blue).getRGB());
