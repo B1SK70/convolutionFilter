@@ -6,9 +6,9 @@ import java.awt.image.BufferedImage;
 public class Convolution extends BufferedImage {
 
     int kernel[][] = new int[][]{
-        {0, -1, 0},
-        {0, 2, 0},
-        {0, -1, 0}};
+        {0, 0, 0},
+        {-1, 2, -1},
+        {0, 0, 0}};
 
     int kernelSumVal;
 

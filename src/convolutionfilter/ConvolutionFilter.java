@@ -16,7 +16,7 @@ public class ConvolutionFilter extends JFrame{
         //obito.jpg
         //pinguino.jpeg
         //edificios.jpg
-        File imageFile = new File("src/obito.jpg");
+        File imageFile = new File("src/edificios.jpg");
         Viewer viewer = new Viewer(imageFile);
         
         this.add(viewer);
